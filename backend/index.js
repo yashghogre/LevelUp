@@ -21,6 +21,11 @@ app.get('/api/home', (req, res) => {
     res.json({ message: 'Hello World!' })
 })
 
+app.post('/test', (req, res) => {
+    console.log('This is test')
+    res.json({ message: 'This is test' })
+})
+
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
 })

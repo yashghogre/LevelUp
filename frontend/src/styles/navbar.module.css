@@ -1,0 +1,33 @@
+.navbarDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5vh 10vw;
+}
+
+.logoDiv {
+    display: flex;
+    align-items: center;
+}
+
+.logoLink {
+    color: black;
+    text-decoration: none;
+}
+
+.hiw:hover {
+    color: #3739c6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.hiwLink {
+    text-decoration: none;
+    color: black;
+}
+
+@media (max-width: 600px) {
+    .navbarDiv {
+        padding: 5vh 6vw;
+    }
+}

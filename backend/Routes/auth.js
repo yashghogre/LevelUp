@@ -1,8 +1,11 @@
 const express = require('express')
+const cors = require('cors')
 const router = express.Router()
 
 require('./../dbConfig/dbConfig')
 const User = require('./../Models/userSchema')
+
+router.use(cors())
 
 router.get('/', (req, res) => {
     res.send('Hello from Router js')
