@@ -13,25 +13,26 @@ router.post('/signup', async (req, res) => {
     // console.log(fname, lname, email, password + ' try via backend')
     console.log(fname)
 
-    if (!fname || !lname || !email || !password) {
-        res.status(422).json({ error: 'Please fill the comnplete details' })
-    }
+    // if (!fname || !lname || !email || !password) {
+    //     res.status(422).json({ error: 'Please fill the comnplete details' })
+    // }
     try {
         const userExist = await User.findOne({ email: email })
 
         if (userExist) {
-            return res.status(422).json({ error: "Email already exists" })
-        }
-
-        const user = new User({ fname, lname, email, password })
-
-        const userRegister = await user.save()
-
-        if (userRegister) {
-            res.status(201).json({ message: "User registered successfully" })
+            res.status(422).json({ error: "Email already exists" })
         }
         else {
-            res.status(500).json({ error: "Failed to Register" })
+            const user = new User({ fname, lname, email, password })
+
+            const userRegister = await user.save()
+
+            if (userRegister) {
+                res.status(201).json({ message: "User registered successfully" })
+            }
+            else {
+                res.status(500).json({ error: "Failed to Register" })
+            }
         }
 
     } catch (error) {
@@ -49,11 +50,11 @@ router.post('/signin', async (req, res) => {
             res.status(200).json({ message: "User Logged in Successfully" })
         }
         else {
-            res.json({ error: "Incorrect Password" })
+            res.status(403).json({ error: "Incorrect Password" })
         }
     }
     else {
-        res.json({ error: "User does not Exist" })
+        res.status(404).json({ error: "User does not Exist" })
     }
 
 })

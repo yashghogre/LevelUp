@@ -18,19 +18,6 @@ const page = () => {
         password: ''
     })
 
-    useEffect(() => {
-        fetch('http://localhost:8080/api/home')
-            .then(
-                response => response.json()
-            )
-            .then((data) => {
-                // console.log(data);
-            })
-            .catch(rejected => {
-                console.log(rejected)
-            })
-    })
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -46,12 +33,16 @@ const page = () => {
 
         const data = await response.json()
 
-        if (data.status === 422) {
-            toast.error('Registration Failed')
-        }
-        else {
+        if (response.status === 201) {
             toast.success('Registration Successfully')
             router.push('/signin')
+        }
+        else if (response.status === 422) {
+            toast.error('Email already exists')
+        }
+        else {
+            // alert('Registration Failed')
+            toast.error('Registration Failed')
         }
     }
 

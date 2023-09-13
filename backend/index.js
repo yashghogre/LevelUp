@@ -17,10 +17,6 @@ app.use(require('./Routes/auth'))
 app.use(cors())
 app.use(bodyParser.json())
 
-app.get('/api/home', (req, res) => {
-    res.json({ message: 'Hello World!' })
-})
-
 app.post('/test', (req, res) => {
     console.log('This is test')
     res.json({ message: 'This is test' })

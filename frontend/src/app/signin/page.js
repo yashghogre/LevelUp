@@ -32,16 +32,18 @@ const page = () => {
 
         const data = await response.json()
 
-        if(data.status === 422)
-        {
-            toast.error('Login Failed')
-        }
-        else
-        {
+        if (response.status === 200) {
             toast.success('Login Successful')
             router.push('/dashboard')
         }
-        
+        else if (response.status === 403)
+        {
+            toast.error('Incorrect Password')
+        }
+        else {
+            toast.error('Login Failed')
+        }
+
     }
 
     return (
