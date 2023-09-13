@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcryptjs = require('bcryptjs')
 
 const userSchema = mongoose.Schema({
     fname: {
@@ -18,6 +19,16 @@ const userSchema = mongoose.Schema({
         required: true,
     }
 })
+
+//Password Hashing
+
+userSchema.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        this.password = await bcryptjs.hash(this.password, 12)
+    }
+    next()
+})
+
 
 const User = mongoose.model('USER', userSchema)
 

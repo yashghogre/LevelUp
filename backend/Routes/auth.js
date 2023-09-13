@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const bcryptjs = require('bcryptjs')
 const router = express.Router()
 
 require('./../dbConfig/dbConfig')
@@ -43,10 +44,13 @@ router.post('/signup', async (req, res) => {
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 
-    const userExist = await User.findOne({ email })
+    const userExist = await User.findOne({ email: email })
 
     if (userExist) {
-        if (userExist.password === password) {
+
+        const doesMatch = await bcryptjs.compare(password, userExist.password)
+
+        if (doesMatch) {
             res.status(200).json({ message: "User Logged in Successfully" })
         }
         else {

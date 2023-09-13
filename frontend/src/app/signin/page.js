@@ -40,6 +40,10 @@ const page = () => {
         {
             toast.error('Incorrect Password')
         }
+        else if (response.status === 404)
+        {
+            toast.error('Account does not exist')
+        }
         else {
             toast.error('Login Failed')
         }
