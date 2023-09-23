@@ -33,7 +33,9 @@ export default function Home() {
       </div>
 
       <div id='howItWorks'>
-        <h1>How it Works?</h1>
+        <div className={styles.hitTitleDiv}>
+          <h1 className={styles.hiwTitle}>How it Works?</h1>
+        </div>
         <p>hi</p>
         <p>hi</p>
         <p>hi</p>

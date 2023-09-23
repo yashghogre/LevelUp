@@ -1,12 +1,28 @@
 const express = require('express')
 const cors = require('cors')
 const bcryptjs = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const authenticate = require('./../Middleware/authenticate')
 const router = express.Router()
+const cookieParser = require("cookie-parser");
+router.use(cookieParser());
+router.use(express.json())
 
 require('./../dbConfig/dbConfig')
 const User = require('./../Models/userSchema')
 
-router.use(cors())
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true, // This is important when using credentials like cookies or HTTP authentication.
+};
+
+router.use(cors(corsOptions))
+
+// router.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//     next();
+// });
 
 router.post('/signup', async (req, res) => {
 
@@ -44,23 +60,39 @@ router.post('/signup', async (req, res) => {
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 
-    const userExist = await User.findOne({ email: email })
+    const userExist = await User.findOne({ email })
 
     if (userExist) {
 
         const doesMatch = await bcryptjs.compare(password, userExist.password)
 
+
         if (doesMatch) {
-            res.status(200).json({ message: "User Logged in Successfully" })
+            const token = jwt.sign({ _id: userExist._id }, process.env.SECRET_KEY)
+            console.log(token)
+
+            res.cookie("jwtoken", token, {
+                // expires: new Date(Date.now() + 60000),
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none'
+            }).status(200).send("User Logged in Successfully")
         }
         else {
-            res.status(403).json({ error: "Incorrect Password" })
+            res.status(403).json({ 'error': "Incorrect Password" })
         }
     }
     else {
-        res.status(404).json({ error: "User does not Exist" })
+        res.status(404).json({ 'error': "User does not Exist" })
     }
 
+})
+
+// router.options('/dashboard', cors(corsOptions));
+
+router.get('/dashboard', authenticate, (req, res) => {
+    console.log('Hello dashboard from server')
+    res.send(req.rootUser)
 })
 
 module.exports = router

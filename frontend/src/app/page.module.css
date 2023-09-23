@@ -1,3 +1,4 @@
+
 .navbarDiv {
   display: flex;
   align-items: center;
@@ -78,6 +79,16 @@
 
 .btnLink {
   text-decoration: none;
+}
+
+.hitTitleDiv {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.hiwTitle {
+
 }
 
 @media (max-width: 600px) {

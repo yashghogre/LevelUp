@@ -27,21 +27,20 @@ const page = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password }),
+            credentials : 'include'
         })
 
-        const data = await response.json()
+        // const data = await response.json()
 
         if (response.status === 200) {
             toast.success('Login Successful')
             router.push('/dashboard')
         }
-        else if (response.status === 403)
-        {
+        else if (response.status === 403) {
             toast.error('Incorrect Password')
         }
-        else if (response.status === 404)
-        {
+        else if (response.status === 404) {
             toast.error('Account does not exist')
         }
         else {
